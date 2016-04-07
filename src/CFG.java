@@ -11,7 +11,7 @@ public class CFG {
 	public static String elseData = "";
 	public static String whileSt = "";
 	public static String whileData = "";
-	public static String line;
+	public static String line
 
 	public static void main(String[] args) throws Exception {
 		sc = new Scanner(new File("javaFile.txt"));
