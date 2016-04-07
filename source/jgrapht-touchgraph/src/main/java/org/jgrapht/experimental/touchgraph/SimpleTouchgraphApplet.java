@@ -34,8 +34,6 @@
  * 8-May-2006 : Initial revision (CA);
  *
  */
-package org.jgrapht.experimental.touchgraph;
-
 import java.applet.*;
 
 import java.awt.*;
