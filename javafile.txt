@@ -4,10 +4,16 @@ int n = 0;
 if(n <= 0) {
 	n++;
 	n--;
-	System.out.println("if);
+	System.out.println("something");
 	while(n > 0) {
-		System.out.println(whileSt);
-		System.out.println(whileData);
+		System.out.println(wSt);
+		System.out.println(wData);
+		if(something) {
+			System.out.println("something");
+		} 
+		else {
+			System.out.println("do something else");
+		}
 	}
 	if(m == 0) {
 		System.out.println("m");
@@ -16,7 +22,7 @@ if(n <= 0) {
 else {
 	j++;
 	j--;
-	System.out.println("if);
+	System.out.println("hello");
 }
 System.out.println("End");
 System.out.println("Bye");

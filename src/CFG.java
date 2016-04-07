@@ -45,6 +45,8 @@ public class CFG {
 		while (!((line = sc.nextLine()).trim().equals("}"))) {
 			if (line.contains("while")) {
 				parseWhile(line);
+			} else if (line.contains("if")) {
+				parseIf(line);
 			} else {
 				ifData += line.trim();
 			}
@@ -66,7 +68,13 @@ public class CFG {
 	public static void parseWhile(String s) {
 		whileSt += s.trim();
 		while (!((line = sc.nextLine()).trim().equals("}"))) {
-			whileData += line.trim();
+			if (line.contains("if")) {
+				parseIf(line);
+			} else if(line.contains("while")) {
+				parseWhile(line);
+			} else {
+				whileData += line.trim();
+			}
 		}
 	}
 }
