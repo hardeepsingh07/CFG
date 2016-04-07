@@ -47,6 +47,8 @@ public class CFG {
 				parseWhile(line);
 			} else if (line.contains("if")) {
 				parseIf(line);
+			} else if (line.contains("else")) {
+				parseElse(line);
 			} else {
 				ifData += line.trim();
 			}
@@ -59,6 +61,8 @@ public class CFG {
 		while (!((line = sc.nextLine()).trim().equals("}"))) {
 			if (line.contains("while")) {
 				parseWhile(line);
+			} else if(line.contains("if")) {
+				parseIf(line);
 			} else {
 				elseData += line.trim();
 			}
@@ -72,6 +76,8 @@ public class CFG {
 				parseIf(line);
 			} else if(line.contains("while")) {
 				parseWhile(line);
+			} else if(line.contains("else")) {
+				parseElse(line);			
 			} else {
 				whileData += line.trim();
 			}

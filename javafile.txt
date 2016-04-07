@@ -4,19 +4,22 @@ int n = 0;
 if(n <= 0) {
 	n++;
 	n--;
-	System.out.println("something");
+	System.out.println("something1");
 	while(n > 0) {
 		System.out.println(wSt);
 		System.out.println(wData);
 		if(something) {
-			System.out.println("something");
+			System.out.println("something2");
 		} 
 		else {
-			System.out.println("do something else");
+			System.out.println("do something1");
 		}
 	}
 	if(m == 0) {
 		System.out.println("m");
+	} 
+	else {
+		System.out.prinln("do something2");
 	}
 }
 else {
