@@ -18,10 +18,10 @@ public class Something extends Applet {
     	frame.getContentPane().add(
     			new GraphPanel<String, DefaultEdge>(g, selfReferencesAllowed));
     	frame.setPreferredSize(new Dimension(500, 500));
-    	frame.setLocationRelativeTo(null);
     	frame.setTitle("Context Flow Graph");
     	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	frame.pack();
+    	frame.setLocationRelativeTo(null);
     	frame.setVisible(true);
     	try {
     		Thread.sleep(5000000);
