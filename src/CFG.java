@@ -57,6 +57,38 @@ public class CFG extends Applet {
 						}
 						elseData = previous;
 						elseTrigger = true;
+					} else if (line.contains("while")) {						
+						// keep instance of while statement to
+						// loop back to it
+						whileSt = line;
+												
+						//add while statement vertex
+						graph.addVertex(line);
+						if (ifTrigger && elseTrigger) {
+							//attach while to the end of both if and else
+							graph.addEdge(ifData, line);
+							graph.addEdge(elseData, line);
+							ifTrigger = false;
+							elseTrigger = false;
+							previous = line;
+						} else {
+							//if no if or else before then just attach the the main 
+							graph.addEdge(previous, line);
+							previous = line;
+						}
+						
+						// move through while data
+						while (!((line = sc.nextLine()).trim().equals("}"))) {
+							graph.addVertex(line);
+							graph.addEdge(previous, line);
+							previous = line;
+						}
+						
+						// once done connect the last line of while to the
+						// loop statement for looping
+						graph.addEdge(previous, whileSt);
+						whileData = previous;
+						whileTrigger = true;
 					}
 				} else {
 					if (previous == null) {

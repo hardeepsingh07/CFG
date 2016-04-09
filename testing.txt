@@ -1,7 +1,6 @@
 System.out.println("Hello");
 System.out.println("Start");
 int n = 0;
-
 if(n <= 0) {
  	n++;
  	s++;
@@ -10,5 +9,14 @@ else {
  	x++;
  	z++;
 }
+while(n > 0) {
+	y++;
+	m++;
+}
+if(n == 5) {
+	n+-;
+}
+else {
+ 	h++;
+}
 System.out.println("end");
-
