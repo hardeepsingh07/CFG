@@ -4,6 +4,11 @@ int n = 0;
 if(n <= 0) {
  	n++;
  	s++;
+ 	if(z > 0) {
+ 		hello++;
+ 		y++;
+ 	}
+ 	ok++;
 }
 else {
  	x++;

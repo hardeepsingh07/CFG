@@ -15,7 +15,7 @@ import org.jgrapht.graph.*;
 public class CFG extends Applet {
 
 	public static Scanner sc = null;
-	public static String mainSt, ifSt, ifData, elseSt, elseData, whileSt, whileData, line, previous;
+	public static String mainSt, ifSt, ifSt2, ifData, elseSt, elseData, whileSt, whileData, line, previous;
 	public static boolean ifTrigger = false, elseTrigger = false, whileTrigger = false;
 	public static ArrayList<String> ifStatements = new ArrayList<String>();
 	public static DirectedGraph<String, DefaultEdge> graph = new DefaultDirectedGraph<String, DefaultEdge>(
@@ -90,11 +90,30 @@ public class CFG extends Applet {
 		// move through if data
 		while (!((line = sc.nextLine()).trim().equals("}"))) {
 			if (line.contains("if")) {
-				parseIf();
-			} else {
 				graph.addVertex(line);
 				graph.addEdge(previous, line);
+
+				ifSt2 = line;
 				previous = line;
+
+				while (!((line = sc.nextLine()).trim().equals("}"))) {
+					graph.addVertex(line);
+					graph.addEdge(previous, line);
+					previous = line;
+				}
+				ifTrigger = true;
+			} else {
+				if (ifTrigger) {
+					graph.addVertex(line);
+					graph.addEdge(ifSt2, line);
+					graph.addEdge(previous, line);
+					previous = line;
+					ifTrigger = false;
+				} else {
+					graph.addVertex(line);
+					graph.addEdge(previous, line);
+					previous = line;
+				}
 			}
 		}
 		ifData = previous;
