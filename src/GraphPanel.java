@@ -30,7 +30,7 @@ public class GraphPanel<V, E> extends GLPanel {
 		tgPanel = new TGPanel();
 		tgPanel.setBackColor(defaultBackColor);
 		hvScroll = new HVScroll(tgPanel, tgLensSet);
-		zoomScroll = new ZoomScroll(tgPanel);
+		//zoomScroll = new ZoomScroll(tgPanel);
 		hyperScroll = new HyperScroll(tgPanel);
 		rotateScroll = new RotateScroll(tgPanel);
 		localityScroll = new LocalityScroll(tgPanel);

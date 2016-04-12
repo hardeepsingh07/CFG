@@ -1,6 +1,7 @@
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import javax.swing.JFrame;
@@ -16,6 +17,7 @@ public class CFG extends Applet {
 	public static Scanner sc = null;
 	public static String mainSt, ifSt, ifData, elseSt, elseData, whileSt, whileData, line, previous;
 	public static boolean ifTrigger = false, elseTrigger = false, whileTrigger = false;
+	public static ArrayList<String> ifStatements = new ArrayList<String>();
 	public static DirectedGraph<String, DefaultEdge> graph = new DefaultDirectedGraph<String, DefaultEdge>(
 			DefaultEdge.class);
 
@@ -26,13 +28,14 @@ public class CFG extends Applet {
 			if ((line = sc.nextLine()).isEmpty()) {
 			} else {
 				if (line.contains("if") || line.contains("while") || line.contains("else")) {
-					// Before parsing the if, else or while keep track of main left off statement
+					// Before parsing the if, else or while keep track of main
+					// left off statement
 					mainSt = previous;
 					if (line.contains("if")) {
 						parseIf();
 					} else if (line.contains("else")) {
 						parseElse();
-					} else if (line.contains("while")) {						
+					} else if (line.contains("while")) {
 						parseWhile();
 					}
 				} else {
@@ -86,7 +89,7 @@ public class CFG extends Applet {
 
 		// move through if data
 		while (!((line = sc.nextLine()).trim().equals("}"))) {
-			if(line.contains("if")) {
+			if (line.contains("if")) {
 				parseIf();
 			} else {
 				graph.addVertex(line);
@@ -95,6 +98,7 @@ public class CFG extends Applet {
 			}
 		}
 		ifData = previous;
+		previous = ifSt;
 		ifTrigger = true;
 	}
 
@@ -108,41 +112,41 @@ public class CFG extends Applet {
 		elseData = previous;
 		elseTrigger = true;
 	}
-	
+
 	public static void parseWhile() {
 		// keep instance of while statement to
 		// loop back to it
 		whileSt = line;
-								
-		//add while statement vertex
+
+		// add while statement vertex
 		graph.addVertex(line);
 		if (ifTrigger && elseTrigger) {
-			//attach while to the end of both if and else
+			// attach while to the end of both if and else
 			graph.addEdge(ifData, line);
 			graph.addEdge(elseData, line);
 			ifTrigger = false;
 			elseTrigger = false;
 			previous = line;
 		} else {
-			//if no if or else before then just attach the the main 
+			// if no if or else before then just attach the the main
 			graph.addEdge(previous, line);
 			previous = line;
 		}
-		
+
 		// move through while data
 		while (!((line = sc.nextLine()).trim().equals("}"))) {
 			graph.addVertex(line);
 			graph.addEdge(previous, line);
 			previous = line;
 		}
-		
+
 		// once done connect the last line of while to the
 		// loop statement for looping
 		graph.addEdge(previous, whileSt);
 		previous = whileSt;
 		whileTrigger = true;
 	}
-	
+
 	public void init() {
 		boolean selfReferencesAllowed = false;
 		setLayout(new BorderLayout());
