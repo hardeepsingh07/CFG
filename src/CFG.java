@@ -16,7 +16,7 @@ public class CFG extends Applet {
 
 	public static Scanner sc = null;
 	public static String mainSt, ifSt, ifSt2, ifData, elseSt, elseData, whileSt, whileData, line, previous;
-	public static boolean ifTrigger = false, elseTrigger = false, whileTrigger = false;
+	public static boolean ifTrigger = false, something = false, elseTrigger = false, whileTrigger = false;
 	public static ArrayList<String> ifStatements = new ArrayList<String>();
 	public static DirectedGraph<String, DefaultEdge> graph = new DefaultDirectedGraph<String, DefaultEdge>(
 			DefaultEdge.class);
@@ -82,8 +82,8 @@ public class CFG extends Applet {
 		graph.addEdge(previous, line);
 
 		// keep instance of if to attach to else if found later
-		ifSt = line;
-
+//		ifSt = line;
+		ifStatements.add(line);
 		// keep track of previous to move forward
 		previous = line;
 
@@ -93,7 +93,7 @@ public class CFG extends Applet {
 				graph.addVertex(line);
 				graph.addEdge(previous, line);
 
-				ifSt2 = line;
+				ifStatements.add(line);
 				previous = line;
 
 				while (!((line = sc.nextLine()).trim().equals("}"))) {
@@ -101,18 +101,20 @@ public class CFG extends Applet {
 					graph.addEdge(previous, line);
 					previous = line;
 				}
-				ifTrigger = true;
+				something = true;
 			} else {
-				if (ifTrigger) {
+				if (something) {
 					graph.addVertex(line);
-					graph.addEdge(ifSt2, line);
+					graph.addEdge(ifStatements.get(ifStatements.size() - 1), line);
 					graph.addEdge(previous, line);
 					previous = line;
+					ifStatements.remove(ifStatements.size() - 1);
 					ifTrigger = false;
 				} else {
 					graph.addVertex(line);
 					graph.addEdge(previous, line);
 					previous = line;
+					//System.out.println(previous + " | " + line);
 				}
 			}
 		}
@@ -120,9 +122,9 @@ public class CFG extends Applet {
 		previous = ifSt;
 		ifTrigger = true;
 	}
-
+ 
 	public static void parseElse() {
-		previous = ifSt;
+		previous = ifStatements.get(ifStatements.size() - 1);
 		while (!((line = sc.nextLine()).trim().equals("}"))) {
 			graph.addVertex(line);
 			graph.addEdge(previous, line);
