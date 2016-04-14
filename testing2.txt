@@ -5,8 +5,8 @@ if(n <= 0) {
  	n++;
  	s++;
 }
-if(s = 0) {
-	wow++;
+else {
+	ok++;
 }
 if(y = 0) {
 	owo++;

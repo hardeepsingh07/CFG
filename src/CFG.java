@@ -30,7 +30,6 @@ public class CFG extends Applet {
 				if (line.contains("if") || line.contains("while") || line.contains("else")) {
 					// Before parsing the if, else or while keep track of main
 					// left off statement
-					mainSt = previous;
 					if (line.contains("if")) {
 						parseIf();
 					} else if (line.contains("else")) {
