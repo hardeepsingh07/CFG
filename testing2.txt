@@ -1,0 +1,15 @@
+System.out.println("Hello");
+System.out.println("Start");
+int n = 0;
+if(n <= 0) {
+ 	n++;
+ 	s++;
+}
+if(s = 0) {
+	wow++;
+}
+if(y = 0) {
+	owo++;
+}
+System.out.println("bye");
+System.out.println("end");
