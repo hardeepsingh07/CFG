@@ -1,6 +1,10 @@
 System.out.println("Hello");
 System.out.println("Start");
 int n = 0;
+while(x = 0) {
+	x++;
+	x--;
+}
 if(n <= 0) {
  	n++;
  	s++;
@@ -8,8 +12,16 @@ if(n <= 0) {
 else {
 	ok++;
 }
+while(z = 0) {
+	z++;
+	z--;
+}
 if(y = 0) {
 	owo++;
+}
+while(y = 0) {
+	y++;
+	y--;
 }
 System.out.println("bye");
 System.out.println("end");

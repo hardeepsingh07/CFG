@@ -1,4 +1,3 @@
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.io.File;
 import java.util.ArrayList;
@@ -6,9 +5,6 @@ import java.util.Scanner;
 
 import javax.swing.JFrame;
 import java.applet.*;
-import java.awt.*;
-import java.net.URL;
-import javax.swing.*;
 import org.jgrapht.*;
 import org.jgrapht.graph.*;
 
@@ -37,7 +33,7 @@ public class CFG2 extends Applet {
 			} else if(line.contains("else")) {
 				parseElse();
 			} else if (line.contains("while")) {
-
+				parseWhile();
 			} else {
 				if (ifTrigger) {
 					ifTriggerComp();
@@ -74,6 +70,7 @@ public class CFG2 extends Applet {
 		graph.addEdge(endIfData, line);
 		previous = line;
 		elseTrigger = false;
+		ifTrigger = false;
 		secondIfCheck = false;
 	}
 	
@@ -111,12 +108,15 @@ public class CFG2 extends Applet {
 			graph.addEdge(previous, line);
 			previous = line;
 		}
+		
 		ifTrigger = true;
 		secondIfCheck = true;
 	}
 	
 	public static void parseElse() {
 		endIfData = previous;
+		
+		//move one more to skip else
 		line = sc.nextLine();
 		graph.addVertex(line);
 		graph.addEdge(ifStatements.get(ifStatements.size() - 1), line);
@@ -128,5 +128,28 @@ public class CFG2 extends Applet {
 		}
 		ifTrigger = false;
 		elseTrigger = true;
+	}
+	
+	public static void parseWhile() {
+		if(elseTrigger) {
+			elseTriggerComp();
+		} else if(ifTrigger) {
+			ifTriggerComp();
+		} else {
+			graph.addVertex(line);
+			graph.addEdge(previous, line);
+		}
+		whileSt = line;
+		previous = line;
+		
+		// parse while data
+		while (!((line = sc.nextLine()).trim().equals("}"))) {
+			graph.addVertex(line);
+			graph.addEdge(previous, line);
+			previous = line;
+		}
+		
+		graph.addEdge(previous, whileSt);
+		previous = whileSt;
 	}
 }
