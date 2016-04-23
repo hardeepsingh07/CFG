@@ -5,6 +5,11 @@ while(x = 0) {
 	x++;
 	x--;
 }
+//this is comment
+for(int i = 0; i < 10: i++) {
+	do something++;
+	maybe this;
+}
 if(n <= 0) {
  	n++;
  	s++;
@@ -12,13 +17,12 @@ if(n <= 0) {
 else {
 	ok++;
 }
-while(z = 0) {
-	z++;
-	z--;
-}
+//This is third comment
 if(y = 0) {
 	owo++;
+	woo++;
 }
+//This is fourth comment
 while(y = 0) {
 	y++;
 	y--;

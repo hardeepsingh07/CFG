@@ -6,7 +6,7 @@ import org.jgrapht.*;
 
 public class GraphPanel<V, E> extends GLPanel {
 	private static final long serialVersionUID = -7441058429719746032L;
-	private Color defaultBackColor = new Color(255, 255, 255);
+	private Color defaultBackColor = new Color(0x01, 0x11, 0x44);
 	private Color defaultBorderBackColor = new Color(0x02, 0x35, 0x81);
 	private Color defaultForeColor = new Color((float) 0.95, (float) 0.85, (float) 0.55);
 

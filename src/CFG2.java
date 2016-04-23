@@ -11,7 +11,7 @@ import org.jgrapht.graph.*;
 public class CFG2 extends Applet {
 
 	public static Scanner sc = null;
-	public static String ifSt, endIfData, whileSt, whileData, line, previous;
+	public static String ifSt, endIfData, whileSt, forSt, line, previous;
 	public static boolean ifTrigger = false, secondIfCheck = false, elseTrigger = false;
 	public static ArrayList<String> ifStatements = new ArrayList<String>();
 	public static DirectedGraph<String, DefaultEdge> graph = new DefaultDirectedGraph<String, DefaultEdge>(
@@ -26,14 +26,15 @@ public class CFG2 extends Applet {
 		while (sc.hasNextLine()) {
 			line = sc.nextLine();
 			if (line.contains("if")) {
-				if(elseTrigger) {
-					elseTriggerComp();
-				}
 				pIf();
 			} else if(line.contains("else")) {
 				parseElse();
 			} else if (line.contains("while")) {
 				parseWhile();
+			} else if(line.contains("for")) {
+				parseFor();			
+			} else if(line.contains("//")) {
+				parseComment();			
 			} else {
 				if (ifTrigger) {
 					ifTriggerComp();
@@ -94,6 +95,10 @@ public class CFG2 extends Applet {
 	}
 
 	public static void pIf() {
+		if(elseTrigger) {
+			elseTriggerComp();
+		}
+		
 		if (secondIfCheck) {
 			doubleIFs();
 		} else {
@@ -131,14 +136,7 @@ public class CFG2 extends Applet {
 	}
 	
 	public static void parseWhile() {
-		if(elseTrigger) {
-			elseTriggerComp();
-		} else if(ifTrigger) {
-			ifTriggerComp();
-		} else {
-			graph.addVertex(line);
-			graph.addEdge(previous, line);
-		}
+		performLocationChecks();
 		whileSt = line;
 		previous = line;
 		
@@ -151,5 +149,37 @@ public class CFG2 extends Applet {
 		
 		graph.addEdge(previous, whileSt);
 		previous = whileSt;
+	}
+	
+	public static void parseFor() {
+		performLocationChecks();		
+		forSt = line;
+		previous = line;
+		
+		// parse for data
+		while (!((line = sc.nextLine()).trim().equals("}"))) {
+			graph.addVertex(line);
+			graph.addEdge(previous, line);
+			previous = line;
+		}
+		
+		graph.addEdge(previous, forSt);
+		previous = forSt;
+	}
+	
+	public static void parseComment() {
+		performLocationChecks();
+		previous = line;
+	}
+	
+	public static void performLocationChecks() {
+		if(elseTrigger) {
+			elseTriggerComp();
+		} else if(ifTrigger) {
+			ifTriggerComp();
+		} else {
+			graph.addVertex(line);
+			graph.addEdge(previous, line);
+		}
 	}
 }

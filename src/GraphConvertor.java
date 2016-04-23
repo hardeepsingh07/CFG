@@ -1,4 +1,6 @@
 import com.touchgraph.graphlayout.*;
+
+import java.awt.Color;
 import java.util.*;
 import org.jgrapht.*;
 
@@ -18,6 +20,9 @@ public class GraphConvertor<V, E> {
 				n = new Node(jgtNodes.get(i).toString());
 			}
 			tgNodes[i] = n;
+			if(tgNodes[i].getLabel().contains("//")) {
+				tgNodes[i].setBackColor(Color.GRAY);
+			}
 			tgPanel.addNode(n);
 		}
 
