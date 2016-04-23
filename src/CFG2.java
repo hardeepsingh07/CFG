@@ -149,6 +149,9 @@ public class CFG2 extends Applet {
 		
 		graph.addEdge(previous, whileSt);
 		previous = whileSt;
+		ifTrigger = false;
+		elseTrigger = false;
+		secondIfCheck = false;
 	}
 	
 	public static void parseFor() {
@@ -165,6 +168,9 @@ public class CFG2 extends Applet {
 		
 		graph.addEdge(previous, forSt);
 		previous = forSt;
+		ifTrigger = false;
+		elseTrigger = false;
+		secondIfCheck = false;
 	}
 	
 	public static void parseComment() {
