@@ -10,6 +10,18 @@ if(n <= 0) {
  	}
  	System.out.println("inside second");
 }
-//This is third comment
+//this is comment
+for(int i = 0; i < 10: i++) {
+	do something++;
+	maybe this;
+}
+if(y = 0) {
+	owo++;
+	woo++;
+}
+while(y = 0) {
+	y++;
+	y--;
+}
 System.out.println("bye");
 System.out.println("end");

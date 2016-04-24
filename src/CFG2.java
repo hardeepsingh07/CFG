@@ -108,7 +108,6 @@ public class CFG2 extends Applet {
 			previous = line;
 		}
 		// parse if data
-		boolean insideIf = false;
 		while (!((line = sc.nextLine()).trim().equals("}"))) {
 			if (line.contains("if")) {
 				ifStatements.add(line);
@@ -121,14 +120,14 @@ public class CFG2 extends Applet {
 					graph.addEdge(previous, line);
 					previous = line;
 				}
-				insideIf = true;
+				ifTrigger = true;
 			} else {
-				if (insideIf) {
+				if (ifTrigger) {
 					graph.addVertex(line);
 					graph.addEdge(previous, line);
 					graph.addEdge(ifStatements.get(ifStatements.size() - 1), line);
 					previous = line;
-					insideIf = false;
+					ifTrigger = false;
 					ifStatements.remove(ifStatements.size() - 1);
 				} else {
 					graph.addVertex(line);
