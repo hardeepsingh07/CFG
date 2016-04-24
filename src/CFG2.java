@@ -26,21 +26,21 @@ public class CFG2 extends Applet {
 		while (sc.hasNextLine()) {
 			line = sc.nextLine();
 			if (line.contains("if")) {
-				pIf();
-			} else if(line.contains("else")) {
+				parseIf();
+			} else if (line.contains("else")) {
 				parseElse();
 			} else if (line.contains("while")) {
 				parseWhile();
-			} else if(line.contains("for")) {
-				parseFor();			
-			} else if(line.contains("//")) {
-				parseComment();			
+			} else if (line.contains("for")) {
+				parseFor();
+			} else if (line.contains("//")) {
+				parseComment();
 			} else {
 				if (ifTrigger) {
 					ifTriggerComp();
-				} else if(elseTrigger) {
+				} else if (elseTrigger) {
 					elseTriggerComp();
-				}else {
+				} else {
 					graph.addVertex(line);
 					graph.addEdge(previous, line);
 					previous = line;
@@ -64,7 +64,7 @@ public class CFG2 extends Applet {
 		} catch (InterruptedException ex) {
 		}
 	}
-	
+
 	public static void elseTriggerComp() {
 		graph.addVertex(line);
 		graph.addEdge(previous, line);
@@ -74,7 +74,7 @@ public class CFG2 extends Applet {
 		ifTrigger = false;
 		secondIfCheck = false;
 	}
-	
+
 	public static void ifTriggerComp() {
 		graph.addVertex(line);
 		graph.addEdge(previous, line);
@@ -82,7 +82,7 @@ public class CFG2 extends Applet {
 		previous = line;
 		ifTrigger = false;
 	}
-	
+
 	public static void doubleIFs() {
 		graph.addVertex(line);
 		graph.addEdge(ifStatements.get(ifStatements.size() - 1), line);
@@ -91,14 +91,14 @@ public class CFG2 extends Applet {
 		ifStatements.add(line);
 		previous = line;
 		secondIfCheck = false;
-		elseTrigger = false;		
+		elseTrigger = false;
 	}
 
-	public static void pIf() {
-		if(elseTrigger) {
+	public static void parseIf() {
+		if (elseTrigger) {
 			elseTriggerComp();
 		}
-		
+
 		if (secondIfCheck) {
 			doubleIFs();
 		} else {
@@ -108,20 +108,44 @@ public class CFG2 extends Applet {
 			previous = line;
 		}
 		// parse if data
+		boolean insideIf = false;
 		while (!((line = sc.nextLine()).trim().equals("}"))) {
-			graph.addVertex(line);
-			graph.addEdge(previous, line);
-			previous = line;
+			if (line.contains("if")) {
+				ifStatements.add(line);
+				graph.addVertex(line);
+				graph.addEdge(previous, line);
+				previous = line;
+
+				while (!((line = sc.nextLine()).trim().equals("}"))) {
+					graph.addVertex(line);
+					graph.addEdge(previous, line);
+					previous = line;
+				}
+				insideIf = true;
+			} else {
+				if (insideIf) {
+					graph.addVertex(line);
+					graph.addEdge(previous, line);
+					graph.addEdge(ifStatements.get(ifStatements.size() - 1), line);
+					previous = line;
+					insideIf = false;
+					ifStatements.remove(ifStatements.size() - 1);
+				} else {
+					graph.addVertex(line);
+					graph.addEdge(previous, line);
+					previous = line;
+				}
+			}
 		}
-		
+
 		ifTrigger = true;
 		secondIfCheck = true;
 	}
-	
+
 	public static void parseElse() {
 		endIfData = previous;
-		
-		//move one more to skip else
+
+		// move one more to skip else
 		line = sc.nextLine();
 		graph.addVertex(line);
 		graph.addEdge(ifStatements.get(ifStatements.size() - 1), line);
@@ -134,54 +158,54 @@ public class CFG2 extends Applet {
 		ifTrigger = false;
 		elseTrigger = true;
 	}
-	
+
 	public static void parseWhile() {
 		performLocationChecks();
 		whileSt = line;
 		previous = line;
-		
+
 		// parse while data
 		while (!((line = sc.nextLine()).trim().equals("}"))) {
 			graph.addVertex(line);
 			graph.addEdge(previous, line);
 			previous = line;
 		}
-		
+
 		graph.addEdge(previous, whileSt);
 		previous = whileSt;
 		ifTrigger = false;
 		elseTrigger = false;
 		secondIfCheck = false;
 	}
-	
+
 	public static void parseFor() {
-		performLocationChecks();		
+		performLocationChecks();
 		forSt = line;
 		previous = line;
-		
+
 		// parse for data
 		while (!((line = sc.nextLine()).trim().equals("}"))) {
 			graph.addVertex(line);
 			graph.addEdge(previous, line);
 			previous = line;
 		}
-		
+
 		graph.addEdge(previous, forSt);
 		previous = forSt;
 		ifTrigger = false;
 		elseTrigger = false;
 		secondIfCheck = false;
 	}
-	
+
 	public static void parseComment() {
 		performLocationChecks();
 		previous = line;
 	}
-	
+
 	public static void performLocationChecks() {
-		if(elseTrigger) {
+		if (elseTrigger) {
 			elseTriggerComp();
-		} else if(ifTrigger) {
+		} else if (ifTrigger) {
 			ifTriggerComp();
 		} else {
 			graph.addVertex(line);
