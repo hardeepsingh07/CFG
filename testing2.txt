@@ -7,6 +7,10 @@ if(n <= 0) {
  	if(n > 0) {
  		n--;
  		s--;
+ 		if(something) {
+ 			aho++;
+ 		}
+ 		maybe++;
  	}
  	else {
  		yes++;

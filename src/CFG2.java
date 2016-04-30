@@ -109,47 +109,49 @@ public class CFG2 extends Applet {
 		}
 		// parse if data
 		while (!((line = sc.nextLine()).trim().equals("}"))) {
-			if (line.contains("if")) {
-				ifStatements.add(line);
-				graph.addVertex(line);
-				graph.addEdge(previous, line);
-				previous = line;
-
-				while (!((line = sc.nextLine()).trim().equals("}"))) {
-					graph.addVertex(line);
-					graph.addEdge(previous, line);
-					previous = line;
-				}
-				ifTrigger = true;
-			} else if(line.contains("else")) {
-				endIfData = previous;	
-				line = sc.nextLine();
-				graph.addVertex(line);
-				graph.addEdge(ifStatements.get(ifStatements.size() - 1), line);
-				ifStatements.remove(ifStatements.get(ifStatements.size() - 1));
-				previous = line;
-				while (!((line = sc.nextLine()).trim().equals("}"))) {
-					graph.addVertex(line);
-					graph.addEdge(previous, line);
-					previous = line;
-				}
-				ifTrigger = false;
-				elseTrigger = true;
-			} else {
-				if (ifTrigger) {
-					ifTriggerComp();
-					ifStatements.remove(ifStatements.get(ifStatements.size() - 1));
-				} else if (elseTrigger) {
-					elseTriggerComp();
-				} else {
-					graph.addVertex(line);
-					graph.addEdge(previous, line);
-					previous = line;
-				}
-			}
+			parseData();
 		}
 		ifTrigger = true;
 		secondIfCheck = true;
+	}
+	
+	public static void parseData() {
+		if (line.contains("if")) {
+			ifStatements.add(line);
+			graph.addVertex(line);
+			graph.addEdge(previous, line);
+			previous = line;
+
+			while (!((line = sc.nextLine()).trim().equals("}"))) {
+				parseData();
+			}
+			ifTrigger = true;
+		} else if(line.contains("else")) {
+			endIfData = previous;	
+			line = sc.nextLine();
+			graph.addVertex(line);
+			graph.addEdge(ifStatements.get(ifStatements.size() - 1), line);
+			ifStatements.remove(ifStatements.get(ifStatements.size() - 1));
+			previous = line;
+			while (!((line = sc.nextLine()).trim().equals("}"))) {
+				graph.addVertex(line);
+				graph.addEdge(previous, line);
+				previous = line;
+			}
+			ifTrigger = false;
+			elseTrigger = true;
+		} else {
+			if (ifTrigger) {
+				ifTriggerComp();
+				ifStatements.remove(ifStatements.get(ifStatements.size() - 1));
+			} else if (elseTrigger) {
+				elseTriggerComp();
+			} else {
+				graph.addVertex(line);
+				graph.addEdge(previous, line);
+				previous = line;
+			}
+		}
 	}
 
 	public static void parseElse() {
