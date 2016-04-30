@@ -121,14 +121,26 @@ public class CFG2 extends Applet {
 					previous = line;
 				}
 				ifTrigger = true;
-			} else {
-				if (ifTrigger) {
+				secondIfCheck = true;
+			} else if(line.contains("else")) {
+				endIfData = previous;	
+				line = sc.nextLine();
+				graph.addVertex(line);
+				graph.addEdge(ifStatements.get(ifStatements.size() - 1), line);
+				ifStatements.remove(ifStatements.get(ifStatements.size() - 1));
+				previous = line;
+				while (!((line = sc.nextLine()).trim().equals("}"))) {
 					graph.addVertex(line);
 					graph.addEdge(previous, line);
-					graph.addEdge(ifStatements.get(ifStatements.size() - 1), line);
 					previous = line;
-					ifTrigger = false;
-					ifStatements.remove(ifStatements.size() - 1);
+				}
+				ifTrigger = false;
+				elseTrigger = true;
+			} else {
+				if (ifTrigger) {
+					ifTriggerComp();
+				} else if (elseTrigger) {
+					elseTriggerComp();
 				} else {
 					graph.addVertex(line);
 					graph.addEdge(previous, line);
@@ -136,7 +148,6 @@ public class CFG2 extends Applet {
 				}
 			}
 		}
-
 		ifTrigger = true;
 		secondIfCheck = true;
 	}

@@ -8,6 +8,10 @@ if(n <= 0) {
  		n--;
  		s--;
  	}
+ 	else {
+ 		yes++;
+ 		why++;
+ 	}
  	System.out.println("inside second");
 }
 //this is comment
@@ -18,6 +22,10 @@ for(int i = 0; i < 10: i++) {
 if(y = 0) {
 	owo++;
 	woo++;
+} 
+else {
+	sey++;
+	yhw++;
 }
 while(y = 0) {
 	y++;
