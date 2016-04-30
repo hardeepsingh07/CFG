@@ -121,7 +121,6 @@ public class CFG2 extends Applet {
 					previous = line;
 				}
 				ifTrigger = true;
-				secondIfCheck = true;
 			} else if(line.contains("else")) {
 				endIfData = previous;	
 				line = sc.nextLine();
@@ -139,6 +138,7 @@ public class CFG2 extends Applet {
 			} else {
 				if (ifTrigger) {
 					ifTriggerComp();
+					ifStatements.remove(ifStatements.get(ifStatements.size() - 1));
 				} else if (elseTrigger) {
 					elseTriggerComp();
 				} else {
