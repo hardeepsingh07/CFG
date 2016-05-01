@@ -94,26 +94,26 @@ public class CFG2 extends Applet {
 		elseTrigger = false;
 	}
 
-	public static void parseIf() {
-		if (elseTrigger) {
-			elseTriggerComp();
-		}
-
-		if (secondIfCheck) {
-			doubleIFs();
-		} else {
-			ifStatements.add(line);
-			graph.addVertex(line);
-			graph.addEdge(previous, line);
-			previous = line;
-		}
-		// parse if data
-		while (!((line = sc.nextLine()).trim().equals("}"))) {
-			parseData();
-		}
-		ifTrigger = true;
-		secondIfCheck = true;
-	}
+//	public static void parseIf() {
+//		if (elseTrigger) {
+//			elseTriggerComp();
+//		}
+//
+//		if (secondIfCheck) {
+//			doubleIFs();
+//		} else {
+//			ifStatements.add(line);
+//			graph.addVertex(line);
+//			graph.addEdge(previous, line);
+//			previous = line;
+//		}
+//		// parse if data
+//		while (!((line = sc.nextLine()).trim().equals("}"))) {
+//			parseData();
+//		}
+//		ifTrigger = true;
+//		secondIfCheck = true;
+//	}
 	
 	public static void parseData() {
 		if (line.contains("if")) {
@@ -126,24 +126,25 @@ public class CFG2 extends Applet {
 			}
 			
 			endIfData = previous;
-			ifTrigger = true;
 			if((line = sc.nextLine()).contains("else")) {
-				ifCheckedForYou = true;
+				parseData();
 			} else {
+				ifTrigger = true;
 				ifTriggerComp();
 				ifStatements.remove(ifStatements.size() - 1);
 			}
-		} else if(line.contains("else") || ifCheckedForYou) {	
+		} else if(line.contains("else")) {	
 			line = sc.nextLine();
 			graph.addVertex(line);
 			graph.addEdge(ifStatements.get(ifStatements.size() - 1), line);
+			System.out.println(ifStatements);
 			ifStatements.remove(ifStatements.size() - 1);
+			System.out.println(ifStatements + "yes");
 			previous = line;
 			while (!((line = sc.nextLine()).trim().equals("}"))) {
 				parseData();
 			}
 			ifTrigger = false;
-			ifCheckedForYou = false;
 			elseTrigger = true;
 		} else {
 			if (ifTrigger) {
