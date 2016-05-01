@@ -12,41 +12,41 @@ public class CFG2 extends Applet {
 
 	public static Scanner sc = null;
 	public static String ifSt, endIfData, whileSt, forSt, line, previous;
-	public static boolean ifTrigger = false, secondIfCheck = false, elseTrigger = false;
+	public static boolean ifTrigger = false, secondIfCheck = false, elseTrigger = false, ifCheckedForYou;
 	public static ArrayList<String> ifStatements = new ArrayList<String>();
 	public static DirectedGraph<String, DefaultEdge> graph = new DefaultDirectedGraph<String, DefaultEdge>(
 			DefaultEdge.class);
 
 	public static void main(String[] args) throws Exception {
-		sc = new Scanner(new File("testing2.txt"));
+		sc = new Scanner(new File("testing3.txt"));
 
 		// Always start with previous as "Start"
 		previous = "Start";
 		graph.addVertex(previous);
 		while (sc.hasNextLine()) {
 			line = sc.nextLine();
-			if (line.contains("if")) {
-				parseIf();
-			} else if (line.contains("else")) {
-				parseElse();
-			} else if (line.contains("while")) {
-				parseWhile();
-			} else if (line.contains("for")) {
-				parseFor();
-			} else if (line.contains("//")) {
-				parseComment();
-			} else {
-				if (ifTrigger) {
-					ifTriggerComp();
-				} else if (elseTrigger) {
-					elseTriggerComp();
-				} else {
-					graph.addVertex(line);
-					graph.addEdge(previous, line);
-					previous = line;
-				}
-
-			}
+//			if (line.contains("if")) {
+//				parseIf();
+//			} else if (line.contains("else")) {
+//				parseElse();
+//			} else if (line.contains("while")) {
+//				parseWhile();
+//			} else if (line.contains("for")) {
+//				parseFor();
+//			} else if (line.contains("//")) {
+//				parseComment();
+//			} else {
+//				if (ifTrigger) {
+//					ifTriggerComp();
+//				} else if (elseTrigger) {
+//					elseTriggerComp();
+//				} else {
+//					graph.addVertex(line);
+//					graph.addEdge(previous, line);
+//					previous = line;
+//				}
+//			}
+			parseData();
 		}
 		Graph<String, DefaultEdge> g = graph;
 		boolean selfReferencesAllowed = false;
@@ -121,29 +121,33 @@ public class CFG2 extends Applet {
 			graph.addVertex(line);
 			graph.addEdge(previous, line);
 			previous = line;
-
 			while (!((line = sc.nextLine()).trim().equals("}"))) {
 				parseData();
 			}
+			
+			endIfData = previous;
 			ifTrigger = true;
-		} else if(line.contains("else")) {
-			endIfData = previous;	
+			if((line = sc.nextLine()).contains("else")) {
+				ifCheckedForYou = true;
+			} else {
+				ifTriggerComp();
+				ifStatements.remove(ifStatements.size() - 1);
+			}
+		} else if(line.contains("else") || ifCheckedForYou) {	
 			line = sc.nextLine();
 			graph.addVertex(line);
 			graph.addEdge(ifStatements.get(ifStatements.size() - 1), line);
-			ifStatements.remove(ifStatements.get(ifStatements.size() - 1));
+			ifStatements.remove(ifStatements.size() - 1);
 			previous = line;
 			while (!((line = sc.nextLine()).trim().equals("}"))) {
-				graph.addVertex(line);
-				graph.addEdge(previous, line);
-				previous = line;
+				parseData();
 			}
 			ifTrigger = false;
+			ifCheckedForYou = false;
 			elseTrigger = true;
 		} else {
 			if (ifTrigger) {
 				ifTriggerComp();
-				ifStatements.remove(ifStatements.get(ifStatements.size() - 1));
 			} else if (elseTrigger) {
 				elseTriggerComp();
 			} else {
