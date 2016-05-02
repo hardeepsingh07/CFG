@@ -9,6 +9,11 @@ if(n <= 0) {
  		s--;
  		if(something) {
  			aho++;
+ 			if(x < 0) {
+ 				meravi++
+ 				iv++;
+ 			}
+ 			oha++;
  		}
  		maybe++;
  		ebyam++;
@@ -18,6 +23,23 @@ if(n <= 0) {
  		why++;
  	}
  	System.out.println("inside second");
+}
+else {
+	testing++;
+	123++;
+	while(s == 1) {
+		sx++;
+		xs++;
+	}
+}
+if(xs < 0) {
+	hardeep++;
+	sona++
+}
+//hello
+for(int i = 0; i < 10; i++) {
+	q++;
+	h++;
 }
 System.out.println("bye");
 System.out.println("end");
