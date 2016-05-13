@@ -24,13 +24,9 @@ if(n <= 0) {
  	}
  	System.out.println("inside second");
 }
-else {
-	testing++;
-	123++;
-	while(s == 1) {
-		sx++;
-		xs++;
-	}
+else { 
+	meri++;
+	teri++;
 }
 if(xs < 0) {
 	hardeep++;

@@ -12,7 +12,7 @@ public class CFG2 extends Applet {
 
 	public static Scanner sc = null;
 	public static String ifSt, endIfData, whileSt, forSt, line, previous;
-	public static boolean ifTrigger = false, secondIfCheck = false, elseTrigger = false, ifCheckedForYou;
+	public static boolean ifTrigger = false, secondIf = false, elseTrigger = false;
 	public static ArrayList<String> ifStatements = new ArrayList<String>();
 	public static DirectedGraph<String, DefaultEdge> graph = new DefaultDirectedGraph<String, DefaultEdge>(
 			DefaultEdge.class);
@@ -51,23 +51,32 @@ public class CFG2 extends Applet {
 		previous = line;
 		elseTrigger = false;
 		ifTrigger = false;
-		secondIfCheck = false;
 	}
 
 	public static void ifTriggerComp() {
-			graph.addVertex(line);
-			graph.addEdge(previous, line);
-			graph.addEdge(ifStatements.get(ifStatements.size() - 1), line);
-			previous = line;
-			ifTrigger = false;
+		graph.addVertex(line);
+		graph.addEdge(previous, line);
+		graph.addEdge(ifStatements.get(ifStatements.size() - 1), line);
+		previous = line;
+		ifTrigger = false;
 	}
 
 	public static void parseData() {
 		if (line.contains("if")) {
-			ifStatements.add(line);
-			graph.addVertex(line);
-			graph.addEdge(previous, line);
-			previous = line;
+			if (secondIf) {
+				graph.addVertex(line);
+				graph.addEdge(previous, line);
+				graph.addEdge(ifStatements.get(ifStatements.size() - 1), line);
+				ifStatements.remove(ifStatements.size() - 1);
+				ifStatements.add(line);
+				previous = line;
+				secondIf = false;
+			} else {
+				ifStatements.add(line);
+				graph.addVertex(line);
+				graph.addEdge(previous, line);
+				previous = line;
+			}
 			while (!((line = sc.nextLine()).trim().equals("}"))) {
 				parseData();
 			}
@@ -77,9 +86,14 @@ public class CFG2 extends Applet {
 			if (line.contains("else")) {
 				parseData();
 			} else {
-				ifTrigger = true;
-				ifTriggerComp();
-				ifStatements.remove(ifStatements.size() - 1);
+				if (line.contains("if")) {
+					secondIf = true;
+					parseData();
+				} else {
+					ifTrigger = true;
+					ifTriggerComp();
+					ifStatements.remove(ifStatements.size() - 1);
+				}
 			}
 		} else if (line.contains("else")) {
 			line = sc.nextLine();
@@ -141,7 +155,6 @@ public class CFG2 extends Applet {
 		previous = whileSt;
 		ifTrigger = false;
 		elseTrigger = false;
-		secondIfCheck = false;
 	}
 
 	public static void parseFor() {
@@ -160,7 +173,6 @@ public class CFG2 extends Applet {
 		previous = forSt;
 		ifTrigger = false;
 		elseTrigger = false;
-		secondIfCheck = false;
 	}
 
 	public static void performLocationChecks() {
