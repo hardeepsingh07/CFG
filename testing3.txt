@@ -12,11 +12,14 @@ if(n <= 0) {
  			if(x < 0) {
  				meravi++
  				iv++;
+ 			} 
+ 			else {
+ 				oha++;
  			}
- 			oha++;
+ 			ebyam++
  		}
  		maybe++;
- 		ebyam++;
+ 		wowebyam++;
  	}
  	else {
  		yes++;
@@ -36,6 +39,19 @@ if(xs < 0) {
 for(int i = 0; i < 10; i++) {
 	q++;
 	h++;
+	for(int i = 0; i < 100; i++) {
+	   f++;
+	   nahi++;
+	}
+	achaji++;
+}
+while( n < 0) {
+   	fatso++;
+   	ostaf++;
+  	while (n) {
+     	keepdoingthis++;
+     	sihtgniodpeek++;
+   	 }
 }
 System.out.println("bye");
 System.out.println("end");

@@ -14,6 +14,8 @@ public class CFG2 extends Applet {
 	public static String ifSt, endIfData, whileSt, forSt, line, previous;
 	public static boolean ifTrigger = false, secondIf = false, elseTrigger = false;
 	public static ArrayList<String> ifStatements = new ArrayList<String>();
+	public static ArrayList<String> forStatements = new ArrayList<String>();
+	public static ArrayList<String>	whileStatements = new ArrayList<String>();
 	public static DirectedGraph<String, DefaultEdge> graph = new DefaultDirectedGraph<String, DefaultEdge>(
 			DefaultEdge.class);
 
@@ -80,13 +82,13 @@ public class CFG2 extends Applet {
 			while (!((line = sc.nextLine()).trim().equals("}"))) {
 				parseData();
 			}
-
 			endIfData = previous;
 			line = sc.nextLine();
 			if (line.contains("else")) {
 				parseData();
 			} else {
 				if (line.contains("if")) {
+					System.out.println("Down: "  + line);
 					secondIf = true;
 					parseData();
 				} else {
@@ -109,23 +111,25 @@ public class CFG2 extends Applet {
 		} else if (line.contains("while")) {
 			graph.addVertex(line);
 			graph.addEdge(previous, line);
-			whileSt = line;
+			whileStatements.add(line);
 			previous = line;
 			while (!((line = sc.nextLine()).trim().equals("}"))) {
 				parseData();
 			}
-			graph.addEdge(previous, whileSt);
-			previous = whileSt;
+			graph.addEdge(previous, whileStatements.get(whileStatements.size() - 1));
+			previous = whileStatements.get(whileStatements.size() - 1);
+			whileStatements.remove(whileStatements.size() - 1);
 		} else if (line.contains("for")) {
 			graph.addVertex(line);
 			graph.addEdge(previous, line);
-			forSt = line;
+			forStatements.add(line);
 			previous = line;
 			while (!((line = sc.nextLine()).trim().equals("}"))) {
 				parseData();
 			}
-			graph.addEdge(previous, forSt);
-			previous = forSt;
+			graph.addEdge(previous, forStatements.get(forStatements.size() - 1));
+			previous = forStatements.get(forStatements.size() - 1);
+			forStatements.remove(forStatements.size() - 1);
 		} else {
 			if (ifTrigger) {
 				ifTriggerComp();
@@ -138,98 +142,4 @@ public class CFG2 extends Applet {
 			}
 		}
 	}
-
-	public static void parseWhile() {
-		performLocationChecks();
-		whileSt = line;
-		previous = line;
-
-		// parse while data
-		while (!((line = sc.nextLine()).trim().equals("}"))) {
-			graph.addVertex(line);
-			graph.addEdge(previous, line);
-			previous = line;
-		}
-
-		graph.addEdge(previous, whileSt);
-		previous = whileSt;
-		ifTrigger = false;
-		elseTrigger = false;
-	}
-
-	public static void parseFor() {
-		performLocationChecks();
-		forSt = line;
-		previous = line;
-
-		// parse for data
-		while (!((line = sc.nextLine()).trim().equals("}"))) {
-			graph.addVertex(line);
-			graph.addEdge(previous, line);
-			previous = line;
-		}
-
-		graph.addEdge(previous, forSt);
-		previous = forSt;
-		ifTrigger = false;
-		elseTrigger = false;
-	}
-
-	public static void performLocationChecks() {
-		if (elseTrigger) {
-			elseTriggerComp();
-		} else if (ifTrigger) {
-			ifTriggerComp();
-		} else {
-			graph.addVertex(line);
-			graph.addEdge(previous, line);
-		}
-	}
 }
-
-// public static void parseElse() {
-// endIfData = previous;
-//
-// // move one more to skip else
-// line = sc.nextLine();
-// graph.addVertex(line);
-// graph.addEdge(ifStatements.get(ifStatements.size() - 1), line);
-// previous = line;
-// while (!((line = sc.nextLine()).trim().equals("}"))) {
-// graph.addVertex(line);
-// graph.addEdge(previous, line);
-// previous = line;
-// }
-// ifTrigger = false;
-// elseTrigger = true;
-// }
-// public static void parseIf() {
-// if (elseTrigger) {
-// elseTriggerComp();
-// }
-//
-// if (secondIfCheck) {
-// doubleIFs();
-// } else {
-// ifStatements.add(line);
-// graph.addVertex(line);
-// graph.addEdge(previous, line);
-// previous = line;
-// }
-// // parse if data
-// while (!((line = sc.nextLine()).trim().equals("}"))) {
-// parseData();
-// }
-// ifTrigger = true;
-// secondIfCheck = true;
-// }
-// public static void doubleIFs() {
-// graph.addVertex(line);
-// graph.addEdge(ifStatements.get(ifStatements.size() - 1), line);
-// graph.addEdge(previous, line);
-// ifStatements.remove(ifStatements.get(ifStatements.size() - 1));
-// ifStatements.add(line);
-// previous = line;
-// secondIfCheck = false;
-// elseTrigger = false;
-// }
