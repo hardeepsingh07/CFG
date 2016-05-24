@@ -1,27 +1,28 @@
-System.out.println("Hello");
-System.out.println("Start");
-int n = 0;
-if(n <= 0) {
- 	n++;
- 	s++;
- 	if(z > 0) {
- 		hello++;
- 		y++;
- 	}
- 	ok++;
+int  I=1, J=2, K=4, M=6, N=8, L=0,F, G;
+int S= I+J;
+K= S+1;
+while( I <= N){
+   K= K+N;
+   F= K* N;
+   I= I +1;
 }
-else {
- 	x++;
- 	z++;
+if(( K+J) != (M + F)) {
+   F= M+ N;
+   G= M*N;
 }
-while(n > 0) {
-	y++;
-	m++;
+else
+{ 
+   F= M-N;
+   G= M+N;
 }
-if(n == 5) {
-	n+-;
+do{
+   K= G*M;
+   F= G-M;
+   N=N+1;
 }
-else {
- 	h++;
+while( N<=20);
+
+if( N<F) {
+	G= H + N;
 }
-System.out.println("end");
+return  G;

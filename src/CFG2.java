@@ -20,7 +20,7 @@ public class CFG2 extends Applet {
 			DefaultEdge.class);
 
 	public static void main(String[] args) throws Exception {
-		sc = new Scanner(new File("testing3.txt"));
+		sc = new Scanner(new File("testing4.txt"));
 
 		// Always start with previous as "Start"
 		previous = "Start";
@@ -85,10 +85,10 @@ public class CFG2 extends Applet {
 			endIfData = previous;
 			line = sc.nextLine();
 			if (line.contains("else")) {
+				System.out.println(line);
 				parseData();
 			} else {
 				if (line.contains("if")) {
-					System.out.println("Down: "  + line);
 					secondIf = true;
 					parseData();
 				} else {

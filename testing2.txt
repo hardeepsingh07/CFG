@@ -1,40 +1,46 @@
-System.out.println("Hello");
-System.out.println("Start");
-int n = 0;
-if(n <= 0) {
- 	n++;
- 	s++;
- 	if(n > 0) {
- 		n--;
- 		s--;
- 		if(something) {
- 			aho++;
- 		}
- 		maybe++;
- 		ebyam++;
- 	}
- 	else {
- 		yes++;
- 		why++;
- 	}
- 	System.out.println("inside second");
+int  I=1, J=2, K=4, M=6, N=8, L=0,F, G;
+int S= I+J;
+K= S+1;
+while( I <= N && J<10){
+   K= K+N;
+   F= K* N;
+   I= I +1;
+   if (J< M) {
+     J=J+2;
+   }
+   else {
+     J=J+1;
+   }     
 }
-//this is comment
-for(int i = 0; i < 10: i++) {
-	do something++;
-	maybe this;
+
+if(( K+J) != (M + F)) {
+   F= M+ N;
+   G= M*N; 
+   do{
+     K= G*M;
+     F= G-M;
+     N=N+1;
+   }
+   while( N<=20);
 }
-if(y = 0) {
-	owo++;
-	woo++;
-} 
-else {
-	sey++;
-	yhw++;
+else
+{ 
+  F= M-N;  
+  if(F<M || G<20) {
+     G= M+N;
+  }
+  else {
+    G= M-N;
+  }
 }
-while(y = 0) {
-	y++;
-	y--;
+do{
+   K= G*M;
+   F= G-M;
+   N=N+1;
 }
-System.out.println("bye");
-System.out.println("end");
+while( N<=20);
+
+if( N<F) {
+	G= H + N;
+}
+return  G;

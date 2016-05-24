@@ -1,57 +1,24 @@
-System.out.println("Hello");
-System.out.println("Start");
-int n = 0;
-if(n <= 0) {
- 	n++;
- 	s++;
- 	if(n > 0) {
- 		n--;
- 		s--;
- 		if(something) {
- 			aho++;
- 			if(x < 0) {
- 				meravi++
- 				iv++;
- 			} 
- 			else {
- 				oha++;
- 			}
- 			ebyam++
- 		}
- 		maybe++;
- 		wowebyam++;
- 	}
- 	else {
- 		yes++;
- 		why++;
- 	}
- 	System.out.println("inside second");
+int  I=1, J=2, K=4, M=6, N=8, L=0,F, G;
+int S = I+J;
+K= S+1;
+if(( K+J) != (M + F)) {
+   F= M+ N;
+   G= M*N;   
+   while( I <= N && G<( F+I)) {
+	   K= K+N;
+	   F= K* N;
+	   I= I +1;
+   }
 }
-else { 
-	meri++;
-	teri++;
+else {
+	F= M-N;
 }
-if(xs < 0) {
-	hardeep++;
-	sona++
+while( N<=20){
+   K= G*M;
+   if( N<F) {
+     G= H + N;
+   }
+   F= G-M;
+   N=N+1;
 }
-//hello
-for(int i = 0; i < 10; i++) {
-	q++;
-	h++;
-	for(int i = 0; i < 100; i++) {
-	   f++;
-	   nahi++;
-	}
-	achaji++;
-}
-while( n < 0) {
-   	fatso++;
-   	ostaf++;
-  	while (n) {
-     	keepdoingthis++;
-     	sihtgniodpeek++;
-   	 }
-}
-System.out.println("bye");
-System.out.println("end");
+return  G;
