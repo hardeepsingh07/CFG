@@ -10,21 +10,20 @@ while( I <= N && J<10){
    }
    else {
      J=J+1;
-   }     
+   } 
+   //comment0    
 }
-
 if(( K+J) != (M + F)) {
    F= M+ N;
    G= M*N; 
-   do{
+   while( N<=20){
      K= G*M;
      F= G-M;
      N=N+1;
    }
-   while( N<=20);
+   //comment1
 }
-else
-{ 
+else { 
   F= M-N;  
   if(F<M || G<20) {
      G= M+N;
@@ -32,14 +31,13 @@ else
   else {
     G= M-N;
   }
+  //comment2
 }
-do{
+while{
    K= G*M;
    F= G-M;
    N=N+1;
 }
-while( N<=20);
-
 if( N<F) {
 	G= H + N;
 }

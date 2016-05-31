@@ -20,7 +20,7 @@ public class CFG2 extends Applet {
 			DefaultEdge.class);
 
 	public static void main(String[] args) throws Exception {
-		sc = new Scanner(new File("testing4.txt"));
+		sc = new Scanner(new File("testing2.txt"));
 
 		// Always start with previous as "Start"
 		previous = "Start";
@@ -72,12 +72,18 @@ public class CFG2 extends Applet {
 				ifStatements.remove(ifStatements.size() - 1);
 				ifStatements.add(line);
 				previous = line;
-				secondIf = false;
+				secondIf = false;	
 			} else {
+				if(elseTrigger) {
+					elseTriggerComp();
+				} else if(ifTrigger) {
+					ifTriggerComp();
+				} else {
+					graph.addVertex(line);
+					graph.addEdge(previous, line);
+					previous = line;
+				}
 				ifStatements.add(line);
-				graph.addVertex(line);
-				graph.addEdge(previous, line);
-				previous = line;
 			}
 			while (!((line = sc.nextLine()).trim().equals("}"))) {
 				parseData();
@@ -109,10 +115,8 @@ public class CFG2 extends Applet {
 			ifTrigger = false;
 			elseTrigger = true;
 		} else if (line.contains("while")) {
-			graph.addVertex(line);
-			graph.addEdge(previous, line);
+			checkP();
 			whileStatements.add(line);
-			previous = line;
 			while (!((line = sc.nextLine()).trim().equals("}"))) {
 				parseData();
 			}
@@ -131,15 +135,20 @@ public class CFG2 extends Applet {
 			previous = forStatements.get(forStatements.size() - 1);
 			forStatements.remove(forStatements.size() - 1);
 		} else {
-			if (ifTrigger) {
-				ifTriggerComp();
-			} else if (elseTrigger) {
-				elseTriggerComp();
-			} else {
-				graph.addVertex(line);
-				graph.addEdge(previous, line);
-				previous = line;
-			}
+			checkP();
 		}
 	}
+	
+	public static void checkP() {
+		if (ifTrigger) {
+			ifTriggerComp();
+		} else if (elseTrigger) {
+			elseTriggerComp();
+		} else {
+			graph.addVertex(line);
+			graph.addEdge(previous, line);
+			previous = line;
+		}
+	}
+	//end of main
 }

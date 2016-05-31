@@ -10,18 +10,14 @@ if(( K+J) != (M + F)) {
    F= M+ N;
    G= M*N;
 }
-else
-{ 
+else { 
    F= M-N;
    G= M+N;
 }
-do{
-   K= G*M;
-   F= G-M;
-   N=N+1;
+while( J <= n) {
+	F=N-M;
+	G=N+M;
 }
-while( N<=20);
-
 if( N<F) {
 	G= H + N;
 }
