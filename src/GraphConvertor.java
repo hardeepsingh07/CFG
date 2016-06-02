@@ -22,6 +22,17 @@ public class GraphConvertor<V, E> {
 			tgNodes[i] = n;
 			if(tgNodes[i].getLabel().contains("//")) {
 				tgNodes[i].setBackColor(Color.GRAY);
+			} else if (tgNodes[i].getLabel().contains("continue")) {
+				tgNodes[i].setBackColor(Color.GREEN);
+			} else if (tgNodes[i].getLabel().contains("break")) {
+				tgNodes[i].setBackColor(Color.RED);
+			} else if (tgNodes[i].getLabel().contains("++") || tgNodes[i].getLabel().contains("--")) {
+				tgNodes[i].setBackColor(Color.magenta);
+			} else if (tgNodes[i].getLabel().contains("()")) {
+				tgNodes[i].setBackColor(Color.ORANGE);
+				String temp = tgNodes[i].getLabel();
+				tgNodes[i].setTextColor(Color.BLACK);
+				tgNodes[i].setLabel(temp + ": FUNCTION CALL"); 
 			}
 			tgPanel.addNode(n);
 		}

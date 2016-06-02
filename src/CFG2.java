@@ -16,11 +16,13 @@ public class CFG2 extends Applet {
 	public static ArrayList<String> ifStatements = new ArrayList<String>();
 	public static ArrayList<String> forStatements = new ArrayList<String>();
 	public static ArrayList<String>	whileStatements = new ArrayList<String>();
+	public static ArrayList<String> endIfDataStatements = new ArrayList<String>();
+	public static ArrayList<String> doStatements = new ArrayList<String>();
 	public static DirectedGraph<String, DefaultEdge> graph = new DefaultDirectedGraph<String, DefaultEdge>(
 			DefaultEdge.class);
 
 	public static void main(String[] args) throws Exception {
-		sc = new Scanner(new File("testing2.txt"));
+		sc = new Scanner(new File("testing.txt"));
 
 		// Always start with previous as "Start"
 		previous = "Start";
@@ -49,7 +51,8 @@ public class CFG2 extends Applet {
 	public static void elseTriggerComp() {
 		graph.addVertex(line);
 		graph.addEdge(previous, line);
-		graph.addEdge(endIfData, line);
+		graph.addEdge(endIfDataStatements.get(endIfDataStatements.size() - 1), line);
+		endIfDataStatements.remove(endIfDataStatements.size() - 1);
 		previous = line;
 		elseTrigger = false;
 		ifTrigger = false;
@@ -88,7 +91,8 @@ public class CFG2 extends Applet {
 			while (!((line = sc.nextLine()).trim().equals("}"))) {
 				parseData();
 			}
-			endIfData = previous;
+			endIfDataStatements.add(previous);
+			//endIfData = previous;
 			line = sc.nextLine();
 			if (line.contains("else")) {
 				System.out.println(line);
@@ -134,6 +138,19 @@ public class CFG2 extends Applet {
 			graph.addEdge(previous, forStatements.get(forStatements.size() - 1));
 			previous = forStatements.get(forStatements.size() - 1);
 			forStatements.remove(forStatements.size() - 1);
+		} else if(line.contains("do")) {
+			checkP();
+			doStatements.add(line);
+			graph.addVertex(line);
+			graph.addEdge(previous, line);
+			while (!((line = sc.nextLine()).trim().contains("}"))) {
+				parseData();
+			}
+			line = line.replace("}", "");
+			graph.addVertex(line);
+			graph.addEdge(previous, line);
+			graph.addEdge(line, doStatements.get(doStatements.size() - 1));
+			previous = line;			
 		} else {
 			checkP();
 		}
