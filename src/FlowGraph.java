@@ -1,3 +1,10 @@
+/* 
+*	Created by Hardeep Singh
+*	Context Flow Graph
+*	Dr. Salloumn
+*	Graph Represented Visually
+*/
+
 import java.awt.Dimension;
 import java.io.File;
 import java.util.ArrayList;
@@ -8,8 +15,10 @@ import java.applet.*;
 import org.jgrapht.*;
 import org.jgrapht.graph.*;
 
-public class CFG2 extends Applet {
+public class FlowGraph {
 
+	@SuppressWarnings("unused")
+	private static final long serialVersionUID = 1L;
 	public static Scanner sc = null;
 	public static String ifSt, endIfData, whileSt, forSt, line, previous;
 	public static boolean ifTrigger = false, secondIf = false, elseTrigger = false;
@@ -104,9 +113,13 @@ public class CFG2 extends Applet {
 			checkData();
 			ifStatements.add(line);
 		}
+		
+		//parse data between braces
 		while (!((line = sc.nextLine()).trim().equals("}"))) {
 			parseData();
 		}
+		
+		//check ahead statements
 		endIfDataStatements.add(previous);
 		line = sc.nextLine();
 		if (line.contains("else")) {
@@ -130,9 +143,12 @@ public class CFG2 extends Applet {
 		graph.addEdge(ifStatements.get(ifStatements.size() - 1), line);
 		ifStatements.remove(ifStatements.size() - 1);
 		previous = line;
+		
+		//parse data between braces
 		while (!((line = sc.nextLine()).trim().equals("}"))) {
 			parseData();
 		}
+		
 		ifTrigger = false;
 		elseTrigger = true;
 	}
@@ -141,9 +157,12 @@ public class CFG2 extends Applet {
 	public static void checkWhile() {
 		checkData();
 		whileStatements.add(line);
+		
+		//parse data between braces
 		while (!((line = sc.nextLine()).trim().equals("}"))) {
 			parseData();
 		}
+		
 		graph.addEdge(previous, whileStatements.get(whileStatements.size() - 1));
 		previous = whileStatements.get(whileStatements.size() - 1);
 		whileStatements.remove(whileStatements.size() - 1);
@@ -155,9 +174,12 @@ public class CFG2 extends Applet {
 		doStatements.add(line);
 		graph.addVertex(line);
 		graph.addEdge(previous, line);
+		
+		//parse data between braces
 		while (!((line = sc.nextLine()).trim().contains("}"))) {
 			parseData();
 		}
+		
 		line = line.replace("}", "");
 		graph.addVertex(line);
 		graph.addEdge(previous, line);
@@ -171,9 +193,12 @@ public class CFG2 extends Applet {
 		graph.addEdge(previous, line);
 		forStatements.add(line);
 		previous = line;
+		
+		//parse data between braces
 		while (!((line = sc.nextLine()).trim().equals("}"))) {
 			parseData();
 		}
+		
 		graph.addEdge(previous, forStatements.get(forStatements.size() - 1));
 		previous = forStatements.get(forStatements.size() - 1);
 		forStatements.remove(forStatements.size() - 1);
@@ -191,5 +216,4 @@ public class CFG2 extends Applet {
 			previous = line;
 		}
 	}
-	
 }
