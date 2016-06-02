@@ -33,5 +33,4 @@ do{
    F= G-M;
    N=N+1;
 } while( N<=20);
-//hellodjfla
 return  G;

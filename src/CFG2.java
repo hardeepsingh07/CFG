@@ -15,29 +15,37 @@ public class CFG2 extends Applet {
 	public static boolean ifTrigger = false, secondIf = false, elseTrigger = false;
 	public static ArrayList<String> ifStatements = new ArrayList<String>();
 	public static ArrayList<String> forStatements = new ArrayList<String>();
-	public static ArrayList<String>	whileStatements = new ArrayList<String>();
+	public static ArrayList<String> whileStatements = new ArrayList<String>();
 	public static ArrayList<String> endIfDataStatements = new ArrayList<String>();
 	public static ArrayList<String> doStatements = new ArrayList<String>();
 	public static DirectedGraph<String, DefaultEdge> graph = new DefaultDirectedGraph<String, DefaultEdge>(
 			DefaultEdge.class);
 
 	public static void main(String[] args) throws Exception {
-		sc = new Scanner(new File("testing.txt"));
+		sc = new Scanner(new File("testing1.txt"));
 
 		// Always start with previous as "Start"
 		previous = "Start";
 		graph.addVertex(previous);
+
+		// parse the data given by file
 		while (sc.hasNextLine()) {
 			line = sc.nextLine();
 			parseData();
 		}
+
+		// attach a "End" node to the data
+		line = "End";
+		graph.addVertex(line);
+		graph.addEdge(previous, line);
+
+		// Call the classes to make the GUI calls
 		Graph<String, DefaultEdge> g = graph;
 		boolean selfReferencesAllowed = false;
-
 		JFrame frame = new JFrame();
 		frame.getContentPane().add(new GraphPanel<String, DefaultEdge>(g, selfReferencesAllowed));
 		frame.setPreferredSize(new Dimension(1000, 1000));
-		frame.setTitle("Context Flow Graph");
+		frame.setTitle("Hardeep Control Flow Graph");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
 		frame.setLocationRelativeTo(null);
@@ -68,95 +76,111 @@ public class CFG2 extends Applet {
 
 	public static void parseData() {
 		if (line.contains("if")) {
-			if (secondIf) {
-				graph.addVertex(line);
-				graph.addEdge(previous, line);
-				graph.addEdge(ifStatements.get(ifStatements.size() - 1), line);
-				ifStatements.remove(ifStatements.size() - 1);
-				ifStatements.add(line);
-				previous = line;
-				secondIf = false;	
-			} else {
-				if(elseTrigger) {
-					elseTriggerComp();
-				} else if(ifTrigger) {
-					ifTriggerComp();
-				} else {
-					graph.addVertex(line);
-					graph.addEdge(previous, line);
-					previous = line;
-				}
-				ifStatements.add(line);
-			}
-			while (!((line = sc.nextLine()).trim().equals("}"))) {
-				parseData();
-			}
-			endIfDataStatements.add(previous);
-			//endIfData = previous;
-			line = sc.nextLine();
-			if (line.contains("else")) {
-				System.out.println(line);
-				parseData();
-			} else {
-				if (line.contains("if")) {
-					secondIf = true;
-					parseData();
-				} else {
-					ifTrigger = true;
-					ifTriggerComp();
-					ifStatements.remove(ifStatements.size() - 1);
-				}
-			}
+			checkIf();
 		} else if (line.contains("else")) {
-			line = sc.nextLine();
-			graph.addVertex(line);
-			graph.addEdge(ifStatements.get(ifStatements.size() - 1), line);
-			ifStatements.remove(ifStatements.size() - 1);
-			previous = line;
-			while (!((line = sc.nextLine()).trim().equals("}"))) {
-				parseData();
-			}
-			ifTrigger = false;
-			elseTrigger = true;
+			checkElse();
 		} else if (line.contains("while")) {
-			checkP();
-			whileStatements.add(line);
-			while (!((line = sc.nextLine()).trim().equals("}"))) {
-				parseData();
-			}
-			graph.addEdge(previous, whileStatements.get(whileStatements.size() - 1));
-			previous = whileStatements.get(whileStatements.size() - 1);
-			whileStatements.remove(whileStatements.size() - 1);
+			checkWhile();
 		} else if (line.contains("for")) {
-			graph.addVertex(line);
-			graph.addEdge(previous, line);
-			forStatements.add(line);
-			previous = line;
-			while (!((line = sc.nextLine()).trim().equals("}"))) {
-				parseData();
-			}
-			graph.addEdge(previous, forStatements.get(forStatements.size() - 1));
-			previous = forStatements.get(forStatements.size() - 1);
-			forStatements.remove(forStatements.size() - 1);
-		} else if(line.contains("do")) {
-			checkP();
-			doStatements.add(line);
-			graph.addVertex(line);
-			graph.addEdge(previous, line);
-			while (!((line = sc.nextLine()).trim().contains("}"))) {
-				parseData();
-			}
-			line = line.replace("}", "");
-			graph.addVertex(line);
-			graph.addEdge(previous, line);
-			graph.addEdge(line, doStatements.get(doStatements.size() - 1));
-			previous = line;			
+			checkFor();
+		} else if (line.contains("do")) {
+			checkDoWhile();
 		} else {
-			checkP();
+			checkData();
 		}
 	}
 	
-	public static void checkP() {
+	//parse if data
+	public static void checkIf() {
+		if (secondIf) {
+			graph.addVertex(line);
+			graph.addEdge(previous, line);
+			graph.addEdge(ifStatements.get(ifStatements.size() - 1), line);
+			ifStatements.remove(ifStatements.size() - 1);
+			ifStatements.add(line);
+			previous = line;
+			secondIf = false;
+		} else {
+			checkData();
+			ifStatements.add(line);
+		}
+		while (!((line = sc.nextLine()).trim().equals("}"))) {
+			parseData();
+		}
+		endIfDataStatements.add(previous);
+		line = sc.nextLine();
+		if (line.contains("else")) {
+			parseData();
+		} else {
+			if (line.contains("if")) {
+				secondIf = true;
+				parseData();
+			} else {
+				ifTrigger = true;
+				ifTriggerComp();
+				ifStatements.remove(ifStatements.size() - 1);
+			}
+		}
+	}
+	
+	//parse else data
+	public static void checkElse() {
+		line = sc.nextLine();
+		graph.addVertex(line);
+		graph.addEdge(ifStatements.get(ifStatements.size() - 1), line);
+		ifStatements.remove(ifStatements.size() - 1);
+		previous = line;
+		while (!((line = sc.nextLine()).trim().equals("}"))) {
+			parseData();
+		}
+		ifTrigger = false;
+		elseTrigger = true;
+	}
+	
+	//parse while data
+	public static void checkWhile() {
+		checkData();
+		whileStatements.add(line);
+		while (!((line = sc.nextLine()).trim().equals("}"))) {
+			parseData();
+		}
+		graph.addEdge(previous, whileStatements.get(whileStatements.size() - 1));
+		previous = whileStatements.get(whileStatements.size() - 1);
+		whileStatements.remove(whileStatements.size() - 1);
+	}
+	
+	//parse do-while data
+	public static void checkDoWhile() {
+		checkData();
+		doStatements.add(line);
+		graph.addVertex(line);
+		graph.addEdge(previous, line);
+		while (!((line = sc.nextLine()).trim().contains("}"))) {
+			parseData();
+		}
+		line = line.replace("}", "");
+		graph.addVertex(line);
+		graph.addEdge(previous, line);
+		graph.addEdge(line, doStatements.get(doStatements.size() - 1));
+		previous = line;
+	}
+	
+	//parse for data
+	public static void checkFor() {
+		graph.addVertex(line);
+		graph.addEdge(previous, line);
+		forStatements.add(line);
+		previous = line;
+		while (!((line = sc.nextLine()).trim().equals("}"))) {
+			parseData();
+		}
+		graph.addEdge(previous, forStatements.get(forStatements.size() - 1));
+		previous = forStatements.get(forStatements.size() - 1);
+		forStatements.remove(forStatements.size() - 1);
+	}
+
+	//parse rest data
+	public static void checkData() {
 		if (ifTrigger) {
 			ifTriggerComp();
 		} else if (elseTrigger) {
@@ -167,5 +191,5 @@ public class CFG2 extends Applet {
 			previous = line;
 		}
 	}
-	//end of main
+	
 }
