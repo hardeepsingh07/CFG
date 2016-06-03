@@ -3,18 +3,17 @@ int S= I+J;
 K= S+1;
 while( I <= N){
    K= K+N;
-   while(F <= 20) {   
-  	 if(( K+J) != (M + F)) {
-	    G= M*N;
-	    F= F+1;
-   	 }
-     else
-   	    F= F+2;       
-     }
-     //something
-   }  
-   F= K* N;
-   I= I +1;
+   while( F<=20) {   
+    	if(( K+J) != (M + F)) {
+   			G= M*N;
+   			F= F+1;
+  		}
+  		else {
+    		F= F+2;       
+  		}  
+   		F= K* N;
+   		I= I +1;
+   }
 }
 if(( K+J) != (M + F)) {
    F= M+ N;

@@ -9,36 +9,36 @@ while( I <= N && J<10){
      J=J+2;
    }
    else {
-     J=J+1;
-   } 
-   //comment0    
+    J=J+1;
+   }
+   //Comment0     
 }
 if(( K+J) != (M + F)) {
    F= M+ N;
    G= M*N; 
-   while( N<=20){
-     K= G*M;
-     F= G-M;
-     N=N+1;
+   while( N<=20) {
+   	  K= G*M;
+      F= G-M;
+      N=N+1;
    }
-   //comment1
+   //Comment1
 }
-else { 
+else{ 
   F= M-N;  
   if(F<M || G<20) {
-     G= M+N;
+  	 G= M+N;
   }
   else {
-    G= M-N;
+     G= M-N;
   }
-  //comment2
+  //Comment2
 }
-while{
+while( N<=20){
    K= G*M;
    F= G-M;
    N=N+1;
 }
-if( N<F) {
-	G= H + N;
+if(N<F) {
+  G= H + N;
 }
 return  G;

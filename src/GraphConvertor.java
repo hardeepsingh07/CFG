@@ -27,7 +27,8 @@ public class GraphConvertor<V, E> {
 			} else if (tgNodes[i].getLabel().contains("break")) {
 				tgNodes[i].setBackColor(Color.RED);
 			} else if (tgNodes[i].getLabel().contains("++") || tgNodes[i].getLabel().contains("--")) {
-				tgNodes[i].setBackColor(Color.magenta);
+				tgNodes[i].setBackColor(Color.CYAN);
+				tgNodes[i].setTextColor(Color.BLACK);
 			} else if (tgNodes[i].getLabel().contains("()")) {
 				tgNodes[i].setBackColor(Color.ORANGE);
 				String temp = tgNodes[i].getLabel();

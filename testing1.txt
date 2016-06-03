@@ -2,35 +2,24 @@ int  I=1, J=2, K=4, M=6, N=8, L=0,F, G;
 int S= I+J;
 K= S+1;
 while( I <= N){
-   K= K+N;
+  K= K+N;
    F= K* N;
    I= I +1;
-   break;
 }
 if(( K+J) != (M + F)) {
    F= M+ N;
    G= M*N;
-   continue;
-   c++;
 }
-else { 
+else{ 
    F= M-N;
    G= M+N;
-   c--;
 }
-//comment
-while( J <= n) {
-	F=N-M;
-	G=N+M;
-	hello();
-}
-if( N<F) {
-	G= H + N;
-}
-//comment2
-do{
+while( N<=20) {
    K= G*M;
    F= G-M;
    N=N+1;
-} while( N<=20);
+}
+if( N<F) {
+  G= H + N;
+}
 return  G;

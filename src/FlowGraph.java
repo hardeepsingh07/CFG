@@ -1,3 +1,4 @@
+
 /* 
 *	Created by Hardeep Singh
 *	Context Flow Graph
@@ -31,7 +32,7 @@ public class FlowGraph {
 			DefaultEdge.class);
 
 	public static void main(String[] args) throws Exception {
-		sc = new Scanner(new File("testing1.txt"));
+		sc = new Scanner(new File("extraCreditTesting.txt"));
 
 		// Always start with previous as "Start"
 		previous = "Start";
@@ -40,7 +41,9 @@ public class FlowGraph {
 		// parse the data given by file
 		while (sc.hasNextLine()) {
 			line = sc.nextLine();
-			parseData();
+			if (!line.isEmpty()) {
+				parseData();
+			}
 		}
 
 		// attach a "End" node to the data
@@ -81,6 +84,7 @@ public class FlowGraph {
 		graph.addEdge(ifStatements.get(ifStatements.size() - 1), line);
 		previous = line;
 		ifTrigger = false;
+		endIfDataStatements.remove(endIfDataStatements.size() - 1);
 	}
 
 	public static void parseData() {
@@ -98,8 +102,8 @@ public class FlowGraph {
 			checkData();
 		}
 	}
-	
-	//parse if data
+
+	// parse if data
 	public static void checkIf() {
 		if (secondIf) {
 			graph.addVertex(line);
@@ -113,13 +117,18 @@ public class FlowGraph {
 			checkData();
 			ifStatements.add(line);
 		}
-		
-		//parse data between braces
+
+		// parse data between braces
 		while (!((line = sc.nextLine()).trim().equals("}"))) {
 			parseData();
 		}
-		
-		//check ahead statements
+
+		// perform next line check
+		nextCheck();
+	}
+
+	public static void nextCheck() {
+		// check ahead statements
 		endIfDataStatements.add(previous);
 		line = sc.nextLine();
 		if (line.contains("else")) {
@@ -135,76 +144,76 @@ public class FlowGraph {
 			}
 		}
 	}
-	
-	//parse else data
+
+	// parse else data
 	public static void checkElse() {
 		line = sc.nextLine();
 		graph.addVertex(line);
 		graph.addEdge(ifStatements.get(ifStatements.size() - 1), line);
 		ifStatements.remove(ifStatements.size() - 1);
 		previous = line;
-		
-		//parse data between braces
+
+		// parse data between braces
 		while (!((line = sc.nextLine()).trim().equals("}"))) {
 			parseData();
 		}
-		
+
 		ifTrigger = false;
 		elseTrigger = true;
 	}
-	
-	//parse while data
+
+	// parse while data
 	public static void checkWhile() {
 		checkData();
 		whileStatements.add(line);
-		
-		//parse data between braces
+
+		// parse data between braces
 		while (!((line = sc.nextLine()).trim().equals("}"))) {
 			parseData();
 		}
-		
+
 		graph.addEdge(previous, whileStatements.get(whileStatements.size() - 1));
 		previous = whileStatements.get(whileStatements.size() - 1);
 		whileStatements.remove(whileStatements.size() - 1);
 	}
-	
-	//parse do-while data
+
+	// parse do-while data
 	public static void checkDoWhile() {
 		checkData();
 		doStatements.add(line);
 		graph.addVertex(line);
 		graph.addEdge(previous, line);
-		
-		//parse data between braces
+
+		// parse data between braces
 		while (!((line = sc.nextLine()).trim().contains("}"))) {
 			parseData();
 		}
-		
+
 		line = line.replace("}", "");
 		graph.addVertex(line);
 		graph.addEdge(previous, line);
 		graph.addEdge(line, doStatements.get(doStatements.size() - 1));
 		previous = line;
 	}
-	
-	//parse for data
+
+	// parse for data
 	public static void checkFor() {
 		graph.addVertex(line);
 		graph.addEdge(previous, line);
 		forStatements.add(line);
 		previous = line;
-		
-		//parse data between braces
+
+		// parse data between braces
 		while (!((line = sc.nextLine()).trim().equals("}"))) {
 			parseData();
 		}
-		
+
 		graph.addEdge(previous, forStatements.get(forStatements.size() - 1));
 		previous = forStatements.get(forStatements.size() - 1);
 		forStatements.remove(forStatements.size() - 1);
 	}
 
-	//parse rest data
+	// parse rest data
 	public static void checkData() {
 		if (ifTrigger) {
 			ifTriggerComp();
